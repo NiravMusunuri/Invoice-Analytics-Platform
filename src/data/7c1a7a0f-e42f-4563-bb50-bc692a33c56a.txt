@@ -1,0 +1,146 @@
+Sample required output for sysmgr
+
+niravmusunuri@Niravs-MacBook-Air SystemMgr_student % source setup.sh
+niravmusunuri@Niravs-MacBook-Air SystemMgr_student % cd sysmgr
+niravmusunuri@Niravs-MacBook-Air sysmgr % make
+gcc   sysmgr.o configreader.o  -lpthread -o sysmgr
+gcc   child.o configreader.o  -lpthread -o child
+gcc   prockiller.o configreader.o  -lpthread -o prockiller
+mv  child child1
+cp  child1 child2
+cp  child1 child3
+mv  child1 child2 child3 sysmgr prockiller ../bin
+niravmusunuri@Niravs-MacBook-Air sysmgr % cd ..
+niravmusunuri@Niravs-MacBook-Air SystemMgr_student % sysmgr
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Started child child1 with PID 49220
+Started child child2 with PID 49221
+Started child child3 with PID 49222
+1 : *** PARENT: 49218
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child2 started with PID 49221 listening on UDP port 10001
+1 : ****** child2 : 49221
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child1 started with PID 49220 listening on UDP port 10000
+1 : ****** child1 : 49220
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child3 started with PID 49222 listening on UDP port 10002
+1 : ****** child3 : 49222
+2 : *** PARENT: 49218
+2 : ****** child2 : 49221
+2 : ****** child1 : 49220
+2 : ****** child3 : 49222
+3 : *** PARENT: 49218
+3 : ****** child2 : 49221
+3 : ****** child1 : 49220
+3 : ****** child3 : 49222
+Child child1 with PID 49220 received terminate message: terminate child1
+8 : *** PARENT: 49218
+****** Process 49218 receivd SIGCHLD (20) from process 0
+Child child1 with PID 49220 terminated. Restarting...
+Started child child1 with PID 49231
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child1 started with PID 49231 listening on UDP port 10000
+1 : ****** child1 : 49231
+8 : ****** child2 : 49221
+8 : ****** child3 : 49222
+Child child2 with PID 49221 received terminate message: terminate child2
+9 : *** PARENT: 49218
+****** Process 49218 receivd SIGCHLD (20) from process 0
+Child child2 with PID 49221 terminated. Restarting...
+Started child child2 with PID 49233
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child2 started with PID 49233 listening on UDP port 10001
+1 : ****** child2 : 49233
+2 : ****** child1 : 49231
+9 : ****** child3 : 49222
+Child child3 with PID 49222 received terminate message: terminate child3
+****** Process 49218 receivd SIGCHLD (20) from process 49222
+Child child3 with PID 49222 terminated. Restarting...
+10 : *** PARENT: 49218
+Started child child3 with PID 49235
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child3 started with PID 49235 listening on UDP port 10002
+1 : ****** child3 : 49235
+
+Sample required output for child
+
+niravmusunuri@Niravs-MacBook-Air SystemMgr_student % child1
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Child child1 started with PID 49220 listening on UDP port 10000
+1 : ****** child1 : 49220
+2 : ****** child1 : 49220
+
+Sample required output for prockiller
+
+niravmusunuri@Niravs-MacBook-Air SystemMgr_student % prockiller
+Config file = ./config/sysconfig.ini
+Server Address = 127.0.0.1
+Child1 Program Name = child1
+Child1 Port = 10000
+Child2 Program Name = child2
+Child2 Port = 10001
+Child3 Program Name = child3
+Child3 Port = 10002
+Select a child to terminate:
+1. child1 (10000)
+2. child2 (10001)
+3. child3 (10002)
+Choice: 1
+Sent terminate request to child1 on port 10000
