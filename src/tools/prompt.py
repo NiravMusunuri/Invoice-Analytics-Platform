@@ -1,8 +1,13 @@
 from src.database import get_connection
-from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+from dotenv import load_dotenv
+from langchain_openrouter import ChatOpenRouter
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite"
+load_dotenv()
+print("KEY:", os.getenv("OPENROUTER_API_KEY"))
+llm = ChatOpenRouter(
+    model="openai/gpt-oss-120b",
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 
 SCHEMA_CONTEXT = """
@@ -21,6 +26,8 @@ chat.invoices (
     dueDate,
     client
 )
+
+inovicestatus columns values are 'Paid', 'Pending', 'Overdue'
 
 chat.conversations (
     conversation_id,
@@ -129,7 +136,7 @@ Write a short answer in 2-3 sentences.
 
     return {
         "question": question,
-        "sql": sql,
+        #"sql": sql,
         "rows": rows,
         "row_count": len(rows),
         "answer": summary_response.content

@@ -2,42 +2,16 @@ from psycopg.types.json import Jsonb
 from src.database import get_connection
 from src.agent import ask_agent
 
-# fetch conver
 
-# save conver
 
 def chat_with_conversation(
     message: str,
     conversation_id: str
 ):
-#---
+
     with get_connection() as conn:
         with conn.cursor() as cur:
-
-            cur.execute(
-                """
-                SELECT message_details_json
-                FROM chat.conversations
-                WHERE conversation_id = %s;
-                """,
-                (conversation_id,)
-            )
-
-            row = cur.fetchone()
-# ---
-            if row is None:
-                return {
-                    "error": "Conversation not found"
-                }
-
-            history = row["message_details_json"] or []
-
-            response = ask_agent(
-                user_message=message,
-                thread_id=conversation_id,
-                history=history
-            )
-
+            response = ask_agent(message, thread_id=conversation_id)
             new_messages = [
                 {
                     "role": "user",
@@ -75,3 +49,5 @@ def chat_with_conversation(
                 "agent_response": response,
                 "message_details_json": updated["message_details_json"]
             }
+
+
